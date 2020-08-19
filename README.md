@@ -6,14 +6,21 @@ Sometimes you can't omit trailing `index`, but luckily this babel plugin can do 
 
 ```js
 // if './foo' is a directory
+
 import foo from './foo';
+
+require('./foo');
 ```
 
 ### Out
 
 ```js
 import foo from './foo/index';
+
+require('./foo/index');
 ```
+
+This plugin will ignore non-relative path.
 
 ## Installation
 
