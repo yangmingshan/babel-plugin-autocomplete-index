@@ -7,13 +7,13 @@ module.exports = function ({ types: t }) {
   return {
     visitor: {
       ImportDeclaration({ node }, { filename }) {
-        if (!filename) return;
-        const source = path.join(path.dirname(filename), node.source.value);
+        const { value } = node.source;
+        if (!filename || !value.startsWith('.')) return;
+        const source = path.join(path.dirname(filename), value);
         try {
           if (fs.statSync(source).isDirectory()) {
             node.source = t.stringLiteral(
-              node.source.value +
-                (node.source.value.endsWith('/') ? 'index' : '/index')
+              value + (value.endsWith('/') ? 'index' : '/index')
             );
           }
         } catch {}

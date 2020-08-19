@@ -10,7 +10,8 @@ const babel = require('@babel/core');
 
   assert.equal(
     code,
-    `import "./foo/index";
+    `import 'module';
+import "./foo/index";
 import "./foo/index";
 import './bar.js';
 import './baz';`
