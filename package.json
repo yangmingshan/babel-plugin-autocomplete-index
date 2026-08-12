@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-autocomplete-index",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "A babel plugin to add trailing index automatically",
   "main": "index.js",
