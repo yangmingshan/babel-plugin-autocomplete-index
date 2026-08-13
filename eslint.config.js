@@ -2,6 +2,7 @@ import globals from 'globals'
 import eslint from '@eslint/js'
 
 const config = [
+  { ignores: ['test-files/'] },
   {
     files: ['**/*.js'],
     languageOptions: { globals: globals.node },
