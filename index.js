@@ -1,13 +1,22 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+function isRelative(value) {
+  return (
+    value === '.' ||
+    value.startsWith('./') ||
+    value === '..' ||
+    value.startsWith('../')
+  )
+}
+
 export default function autocompleteIndex({ types: t }) {
   return {
     name: 'autocomplete-index',
     visitor: {
       ImportDeclaration({ node }, { filename }) {
         const { value } = node.source
-        if (!filename || !value.startsWith('.')) return
+        if (!filename || !isRelative(value)) return
         const source = path.join(path.dirname(filename), value)
         try {
           if (fs.statSync(source).isDirectory()) {
@@ -23,7 +32,7 @@ export default function autocompleteIndex({ types: t }) {
           !filename ||
           node.callee.name !== 'require' ||
           !t.isStringLiteral(node.arguments[0]) ||
-          !node.arguments[0].value.startsWith('.')
+          !isRelative(node.arguments[0].value)
         ) {
           return
         }
