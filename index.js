@@ -54,8 +54,11 @@ export default function autocompleteIndex({ types: t }) {
         const source = path.join(path.dirname(filename), value)
         try {
           if (fs.statSync(source).isDirectory()) {
-            node.arguments[0] = t.stringLiteral(
-              value + (value.endsWith('/') ? 'index' : '/index'),
+            node.arguments[0] = t.inheritsComments(
+              t.stringLiteral(
+                value + (value.endsWith('/') ? 'index' : '/index'),
+              ),
+              node.arguments[0],
             )
           }
           // eslint-disable-next-line no-empty

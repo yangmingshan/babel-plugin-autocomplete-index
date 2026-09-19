@@ -86,4 +86,16 @@ export default foo;`
 });`,
     )
   })
+
+  test('require comments', async () => {
+    const { code } = await transformAsync(
+      `require(/* webpackIgnore: true */ './foo');`,
+      {
+        filename: './test-files/index.js',
+        plugins: ['./index.js'],
+      },
+    )
+
+    assert.equal(code, `require(/* webpackIgnore: true */"./foo/index");`)
+  })
 })
