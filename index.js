@@ -14,14 +14,27 @@ export default function autocompleteIndex({ types: t }) {
   return {
     name: 'autocomplete-index',
     visitor: {
-      ImportDeclaration({ node }, { filename }) {
+      'ImportDeclaration|ExportNamedDeclaration|ExportAllDeclaration|ImportExpression'(
+        { node },
+        { filename },
+      ) {
+        if (
+          !filename ||
+          !t.isStringLiteral(node.source) ||
+          !isRelative(node.source.value)
+        ) {
+          return
+        }
+
         const { value } = node.source
-        if (!filename || !isRelative(value)) return
         const source = path.join(path.dirname(filename), value)
         try {
           if (fs.statSync(source).isDirectory()) {
-            node.source = t.stringLiteral(
-              value + (value.endsWith('/') ? 'index' : '/index'),
+            node.source = t.inheritsComments(
+              t.stringLiteral(
+                value + (value.endsWith('/') ? 'index' : '/index'),
+              ),
+              node.source,
             )
           }
           // eslint-disable-next-line no-empty

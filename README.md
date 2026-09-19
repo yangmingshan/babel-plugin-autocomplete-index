@@ -9,6 +9,12 @@ Sometimes you can't omit trailing `index`, but luckily this babel plugin can do 
 
 import foo from './foo'
 
+export { foo } from './foo'
+
+export * from './foo'
+
+import('./foo')
+
 require('./foo')
 ```
 
@@ -16,6 +22,12 @@ require('./foo')
 
 ```js
 import foo from './foo/index'
+
+export { foo } from './foo/index'
+
+export * from './foo/index'
+
+import('./foo/index')
 
 require('./foo/index')
 ```
